@@ -3,7 +3,7 @@ import Form from "./components/Form";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { Person } from "./components/Person";
-import axios from 'axios'
+import phoneServices from "./services/phonebook";
 
 const App = () => {
   const [person, setPerson] = useState([]);
@@ -20,10 +20,49 @@ const App = () => {
       number: number,
     };
     exist
-      ? alert(`${newName} already exist`)
-      : setPerson(person.concat(newPerson));
-    setNewName("");
-    setNumber("");
+      ? handleUpdate(exist.id)
+      : phoneServices.create(newPerson).then((returnedContact) => {
+          setPerson(person.concat(returnedContact));
+          setNewName("");
+          setNumber("");
+        });
+  };
+
+  const handleRemove = (id) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete ${
+          person.find((ind) => ind.id === id).name
+        }`
+      )
+    ) {
+      phoneServices
+        .remove(id)
+        .then(() =>
+          setPerson(person.filter((individual) => individual.id !== id))
+        );
+    }
+
+    console.log(id);
+  };
+
+  const handleUpdate = (id) => {
+    const ind = person.find((per) => per.id === id);
+    const changeNum = { ...ind, number: number };
+
+    if (
+      window.confirm(`${newName} already exist,do you want to update number`)
+    ) {
+      phoneServices
+        .update(id, changeNum)
+        .then((returnedContact) =>
+          setPerson(
+            person.map((ind) => (ind.id !== id ? ind : returnedContact))
+          )
+        );
+      setNewName("");
+      setNumber("");
+    }
   };
 
   const handleNewName = (e) => {
@@ -39,11 +78,11 @@ const App = () => {
     setFilter(e.target.value);
   };
 
-  useEffect(()=>{
-    axios.get('http://localhost:3001/persons').then(
-      res => setPerson(res.data)
-    )
-  },[])
+  useEffect(() => {
+    phoneServices.getAll().then((initContact) => {
+      setPerson(initContact);
+    });
+  }, []);
 
   const exist = person.find((name) => name.name === newName);
 
@@ -62,7 +101,7 @@ const App = () => {
         number={number}
       />
       <Header title={"Numbers"} />
-      <Person person={person} filter={filter} />
+      <Person person={person} filter={filter} remove={handleRemove} />
     </>
   );
 };

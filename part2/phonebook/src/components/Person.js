@@ -1,11 +1,12 @@
-export const Person = ({ person, filter}) => {
+export const Person = ({ person, filter,remove }) => {
   return (
     <ul>
       {person
         .filter((name) => name.name.includes(filter))
         .map((name) => (
-          <li key={name.name}>
-            {name.name} {name.number}
+          <li key={name.id}>
+            {name.name} {name.number} 
+            <button onClick={()=>remove(name.id)}>delete</button>
           </li>
         ))}
     </ul>
