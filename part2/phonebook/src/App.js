@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import Form from "./components/Form";
 import Header from "./components/Header";
 import Input from "./components/Input";
+import Notification from "./components/Notification";
 import { Person } from "./components/Person";
 import phoneServices from "./services/phonebook";
 
 const App = () => {
   const [person, setPerson] = useState([]);
-
   const [newName, setNewName] = useState("");
   const [number, setNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState(null)
+  const [err, setErr] = useState(false)
 
   const handlePerson = (e) => {
     e.preventDefault();
@@ -23,6 +25,10 @@ const App = () => {
       ? handleUpdate(exist.id)
       : phoneServices.create(newPerson).then((returnedContact) => {
           setPerson(person.concat(returnedContact));
+          setNotification(`${newName} was added`)
+          setTimeout(()=>{
+            setNotification(null)
+          },3000)
           setNewName("");
           setNumber("");
         });
@@ -59,7 +65,15 @@ const App = () => {
           setPerson(
             person.map((ind) => (ind.id !== id ? ind : returnedContact))
           )
-        );
+        ).catch(er => {
+          setErr(true)
+          setNotification(`The details of ${ind.name} are already deleted`)
+        });
+        setNotification(`${newName}'s number was changed`)
+        setTimeout(()=>{
+          setNotification(null)
+          setErr(false)
+        },3000)
       setNewName("");
       setNumber("");
     }
@@ -89,7 +103,7 @@ const App = () => {
   return (
     <>
       <Header title={"PhoneBook"} />
-
+      <Notification name={notification} err={err}/>
       <Input value={filter} onChange={handleFilter} title={"filter by name"} />
 
       <Header title={"Add New"} />
