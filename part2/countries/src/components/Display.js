@@ -31,8 +31,8 @@ const Display = ({ country, filt,onClick,show }) => {
       {filtered.map((name) => (
         <li key={name.cca2}>
           {name.name.common}
-          {console.log(name)}
-          <button onClick={()=>onClick(name)}> 'show'</button>
+          
+          {/* <button>show</button> */}
         </li>
       ))}
     </ul>
