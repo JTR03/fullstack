@@ -1,0 +1,24 @@
+GET http://localhost:3001/info
+
+###
+
+GET http://localhost:3001/api/people
+
+###
+
+GET http://localhost:3001/api/people/4
+
+###
+
+DELETE http://localhost:3001/api/people/4
+
+
+###
+
+POST http://localhost:3001/api/people
+Content-Type: application/json
+
+{
+    "name":"Arto Hella",
+    "number":"083 217 3525"
+}
