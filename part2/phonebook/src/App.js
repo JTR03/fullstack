@@ -31,6 +31,13 @@ const App = () => {
           },3000)
           setNewName("");
           setNumber("");
+        }).catch(err => {
+          setErr(true)
+          setNotification(`${err.response.data.error}`)
+          setTimeout(()=>{
+            setNotification(null)
+            setErr(false)
+          },3000)
         });
   };
 
