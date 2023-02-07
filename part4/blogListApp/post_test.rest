@@ -1,5 +1,5 @@
-POST http://localhost:3003/api/blogs
-Content-Type: 'application/json'
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+Content-Type: application/json
 
 {
     "title":"Financial Smoothie",
@@ -7,3 +7,7 @@ Content-Type: 'application/json'
     "url":"financialsmoothie.com",
     "likes":150
 }
+
+###
+
+GET http://localhost:3003/api/blogs/
