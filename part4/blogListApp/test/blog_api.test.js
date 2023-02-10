@@ -75,6 +75,40 @@ test('should not add not without title or url', async () => {
     await api.post('/api/blogs').send(newPost).expect(400)
  })
 
+ test('should be able to delete a single blog',async () => { 
+    const blogsAtBegin = await helper.blogsInDb()
+    const toRemove = blogsAtBegin[0]
+
+    await api.delete(`/api/blogs/${toRemove.id}`).expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    const contents = blogsAtEnd.map(r => r.title)
+    expect(contents).not.toContain(toRemove.title)
+  })
+
+  // test('should update a single blog', async () => {
+    // const newValues = {
+      // title: 'Common practices',
+      // author: 'Janie Crame',
+      // url:'same as old'
+    // }
+    // const blogs = await helper.blogsInDb()
+
+    // const toUpdate = blogs[0]
+
+    // await api.put(`$/api/blogs/${toUpdate.id}`).send(newValues).expect(200)
+
+    // const updatedBlog =await helper.blogsInDb()
+
+    // const content = updatedBlog.map(r => r.title)
+
+    // expect(content).toContain('Common Practices')
+
+
+  // })
+
 afterAll(async () => {
   await mongoose.connection.close();
 });

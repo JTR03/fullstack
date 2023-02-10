@@ -10,3 +10,12 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3003/api/blogs/
+
+###
+PUT http://localhost:3003/api/blogs/5a422bc61b54a676234d17fc
+Content-Type: application/json
+
+{
+    "title": "Perimeters of life",
+    "author": "Jonathen Cakes"
+}
