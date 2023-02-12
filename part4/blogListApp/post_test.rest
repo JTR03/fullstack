@@ -2,9 +2,11 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 Content-Type: application/json
 
 {
+    "title":"Money on the move",
     "author":"Luyanda Sedibe",
     "url":"financialsmoothie.com",
-    "likes":150
+    "likes":150,
+    "userId":"63e8804f824cd0b2f46b0df4"
 }
 
 ###
@@ -19,3 +21,16 @@ Content-Type: application/json
     "title": "Perimeters of life",
     "author": "Jonathen Cakes"
 }
+
+###
+POST http://localhost:3003/api/users/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "Jonath",
+    "name": "User agent",
+    "password":"mlk542"
+}
+
+###
+GET  http://localhost:3003/api/users/ HTTP/1.1
