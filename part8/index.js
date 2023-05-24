@@ -93,7 +93,6 @@ const typeDefs = `
     name:String!
     born: Int
     id: ID!
-    bookCount: Int!
   }
 
   type Query {
@@ -138,13 +137,13 @@ const resolvers = {
     allAuthors: ()=>authors,
   }
 ,
-  AllAuthors: {
-    bookCount: (root,args)=>{
-      return {
-        bookCount: books.filter(a => a.author === args.author).length
-      }
-    }
-  },
+  // AllAuthors: {
+  //   bookCount: (root,args)=>{
+  //     return {
+  //       bookCount: books.filter(a => a.author === args.author).length
+  //     }
+  //   }
+  // },
 
   Mutation: {
     addBook: (root,args) => {
