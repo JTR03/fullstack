@@ -2,14 +2,14 @@ import { useQuery } from "@apollo/client"
 import { ALL_BOOKS } from "../helpers/queries"
 
 
-const Books = ({show}) => {
+const Books = () => {
 const result = useQuery(ALL_BOOKS)
 
-  if (!show) {
-    return null
-  }
-
-if(result)
+if(result.loading){
+  return(
+    <h3>loading...</h3>
+  )
+}
 
   return (
     <div>
@@ -25,7 +25,7 @@ if(result)
           {result.data.allBooks.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
-              <td>{a.author}</td>
+              <td>{a.author.name}</td>
               <td>{a.published}</td>
             </tr>
           ))}

@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import { useQuery } from '@apollo/client'
 import { ALL_AUTHORS} from './helpers/queries'
+import { Route, Routes,Link } from 'react-router-dom'
 
 const App = () => {
-  const [page, setPage] = useState('authors')
   const result = useQuery(ALL_AUTHORS)
 
   if(result.loading){
@@ -16,16 +15,21 @@ const App = () => {
   return (
     <div>
       <div>
-        <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+        <Link to={'/'}>Home</Link>
+        <Link to={'/books'}>books</Link>
+        <Link to={'/add'}>add book</Link>
       </div>
+    <Routes>
+      <Route path='/books' element={<Books />}/>
+      <Route path='/' element={<Authors authors={result.data.allAuthors}/>} />
+      <Route path='/add' element={<NewBook />}/>
 
-      <Authors show={page === 'authors'} authors={result.data.allAuthors}/>
+    </Routes>
+      
 
-      <Books show={page === 'books'} />
+      
 
-      <NewBook show={page === 'add'} />
+      
     </div>
   )
 }

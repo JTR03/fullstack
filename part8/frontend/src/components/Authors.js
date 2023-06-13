@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { ALL_AUTHORS, EDIT_BIRTH } from "../helpers/queries";
 
-const Authors = ({authors,show}) => {
+const Authors = ({authors}) => {
   const [name, setName] = useState('');
   const [born, setBorn] = useState('');
 
@@ -18,11 +18,6 @@ const submit = (e)=> {
   
 }
 
-  if (!show) {
-    return null
-  }
-  // const authors = []
-
   return (
     <div>
       <h2>authors</h2>
@@ -37,7 +32,7 @@ const submit = (e)=> {
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
-              <td>{a.bookCount}</td>
+              <td>{a.bookcount}</td>
             </tr>
           ))}
         </tbody>
