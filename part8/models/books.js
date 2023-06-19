@@ -12,8 +12,9 @@ const schema = new mongoose.Schema({
         type: Number,
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Author'
+        type: String,
+        required: true,
+        minLength: 5
     },
     genres: [
         {type: String}
