@@ -25,7 +25,7 @@ if(result.loading){
           {result.data.allBooks.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
-              <td>{a.author.name}</td>
+              <td>{a.author}</td>
               <td>{a.published}</td>
             </tr>
           ))}
