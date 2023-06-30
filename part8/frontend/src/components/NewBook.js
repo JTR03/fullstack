@@ -10,11 +10,11 @@ const NewBook = ({setError}) => {
   const [genres, setGenres] = useState([])
 
   const [createBook] = useMutation(ADD_BOOK, {
-    // onError: (error) => {
-    //   const errors = error.graphQLErrors[0].extensions.error.errors
-    //   const messages = Object.values(errors).map(e => e.message).join('\n')
-    //   setError(messages)
-    // },
+    onError: (error) => {
+      const errors = error.graphQLErrors[0].extensions.error.errors
+      const messages = Object.values(errors).map(e => e.message).join('\n')
+      setError(messages)
+    },
     update: (cache,response) => {
       cache.updateQuery({query: ALL_BOOKS}, ({allBooks}) => {
         return {

@@ -41,7 +41,7 @@ type Token{
   type Book {
     title: String!
     author: String!
-    published: Int!
+    published: Int
     genres: [String!]!
     id: ID!
   }
@@ -54,6 +54,7 @@ type Token{
       genre:String
       ): [Book!]!
     allAuthors: [Author!]
+    booksByGenre(genre: String!): [Book]
     me: User
   }
 
@@ -71,7 +72,7 @@ type Token{
     addBook(
       title: String!
       author: String!
-      published: Int!
+      published: Int
       genres:[String!]!
     ):Book!
 
@@ -102,16 +103,16 @@ const resolvers = {
 Author:{
   bookcount: (root) => Book.find({author: root.name}).countDocuments()
 },
-Book: {
-  author: async (root)=>{
-    console.log(root)
-    return{
-      name:  root.author
+// Book: {
+//   author: async (root)=>{
+//     console.log(root)
+//     return{
+//       name:  root.author
       
-    }
+//     }
     
-  }
-},
+//   }
+// },
 
 
   Mutation: {
@@ -165,9 +166,11 @@ Book: {
       
       try {
         await author.save()
-        book.save()
+        await book.save()
+        console.log('book added');
         
       } catch (error) {
+        console.log('book not added');
         throw new GraphQLError('Saving book failed',{
           extensions: {
             code: 'BAD_USER_INPUT',
