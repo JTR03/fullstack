@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { ALL_BOOKS } from "../helpers/queries";
 import { useState } from "react";
+import Recommendated from "./Recommendated";
 
 const Books = () => {
   const [genre, setGenre] = useState(null);
@@ -25,7 +26,7 @@ const Books = () => {
               <th>published</th>
             </tr>
             {data.map((a) => (
-              <tr key={a.title}>
+              <tr key={a.id}>
                 <td>{a.title}</td>
                 <td>{a.author}</td>
                 <td>{a.published}</td>

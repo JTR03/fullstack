@@ -98,6 +98,7 @@ const resolvers = {
       
     },
     allAuthors: async()=>Author.find({}),
+    me:async(root,args,{currentUser}) => currentUser,
   }
 ,
 Author:{

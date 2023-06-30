@@ -1,8 +1,10 @@
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { ADD_BOOK, ALL_BOOKS } from '../helpers/queries'
+import {useNavigate} from 'react-router-dom'
 
 const NewBook = ({setError}) => {
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
@@ -11,9 +13,9 @@ const NewBook = ({setError}) => {
 
   const [createBook] = useMutation(ADD_BOOK, {
     onError: (error) => {
-      const errors = error.graphQLErrors[0].extensions.error.errors
-      const messages = Object.values(errors).map(e => e.message).join('\n')
-      setError(messages)
+      // const errors = error.graphQLErrors[0].extensions.error.errors
+      // const messages = Object.values(errors).map(e => e.message).join('\n')
+      setError(error.graphQLErrors[0].message)
     },
     update: (cache,response) => {
       cache.updateQuery({query: ALL_BOOKS}, ({allBooks}) => {
@@ -31,13 +33,14 @@ const NewBook = ({setError}) => {
 
     console.log('add book...')
 
-    createBook({variables: {title, author,published:published.length > 0 ? published: undefined ,genres}})
+    await createBook({variables: {title, author,published:published.length > 0 ? published: undefined ,genres}})
 
     setTitle('')
     setPublished('')
     setAuthor('')
     setGenres([])
     setGenre('')
+    navigate('/books')
   }
 
   const addGenre = () => {
